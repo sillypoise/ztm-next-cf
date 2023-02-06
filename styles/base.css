@@ -4,7 +4,9 @@ body {
     font-size: theme(fontSize.1);
     font-family: theme(fontFamily.sans);
     line-height: theme(lineHeight.2);
+    word-wrap: break-word;
     letter-spacing: theme(letterSpacing.00);
+    text-rendering: optimizeLegibility;
     overflow-x: hidden;
 }
 

@@ -176,7 +176,7 @@ textarea:disabled {
 }
 
 fieldset {
-  border: var(--border-width-1) var(--primary-border-1) solid;
+  border: var(--border-width-1) var(--neutral-border-0) solid;
   border-radius: theme(borderRadius.sm);
   margin: 0;
   margin-block-end: theme(spacing.xs-s);
