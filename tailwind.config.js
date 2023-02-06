@@ -3,7 +3,6 @@ let { light, dark, overlay } = require("./styles/colors");
 
 module.exports = {
     content: ["./src/**/*.{ts,tsx,jsx,js}"],
-    experimental: { matchVariant: true },
     theme: {
         colors: {
             light,
