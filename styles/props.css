@@ -134,3 +134,9 @@
     --breakpoint-md: 50em;
     --breakpoint-lg: 80em;
 }
+
+:root {
+    /* ANIMATIONS */
+    --animation-duration: 125ms;
+}
+

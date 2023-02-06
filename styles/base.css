@@ -71,7 +71,7 @@ a:hover {
 }
 
 :focus {
-    outline: 2px solid;
+    outline: var(--border-width-2) var(--primary-border-1);
     outline-offset: 0.3ch;
 }
 
@@ -86,4 +86,17 @@ main:focus {
 ::selection {
     color: var(--neutral-surface-0);
     background: var(--neutral-on-surface-0);
+}
+
+/* Base Animations */
+
+button,
+input,
+textarea {
+  transition:
+    background-color var(--animation-duration) linear,
+    border-color var(--animation-duration) linear,
+    color var(--animation-duration) linear,
+    box-shadow var(--animation-duration) linear,
+    transform var(--animation-duration) ease;
 }
