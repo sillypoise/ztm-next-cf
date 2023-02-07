@@ -65,11 +65,41 @@ svg {
 /* Base interactive elements */
 
 a {
-    color: currentcolor;
+  text-decoration: none;
+  color: var(--primary-on-surface-1);
 }
 
 a:hover {
-    text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: var(--primary-surface-4);
+}
+
+address {
+  font-style: normal;
+}
+
+a[href^='mailto\:']::before {
+  content: '📧 ';
+}
+
+a[href^='tel\:']::before {
+  content: '📞 ';
+}
+
+a[href^='sms\:']::before {
+  content: '💬 ';
+}
+
+mark {
+  background-color: var(--primary-solid-9);
+  border-radius: var(--border-radius-2);
+  padding: 0 0.2em 0 0.2em;
+  color: #000;
+}
+
+a > code,
+a > strong {
+  color: inherit;
 }
 
 :focus {

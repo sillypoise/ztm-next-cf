@@ -7,6 +7,9 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
+            <footer>
+                <a href="#">Back to top ⬆</a>
+            </footer>
       </body>
     </Html>
   );

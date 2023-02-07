@@ -28,6 +28,31 @@
     --primary-border-2: theme(colors.scheme.light.primary.border[2]);
     --primary-solid-0: theme(colors.scheme.light.primary.solid[0]);
     --primary-solid-1: theme(colors.scheme.light.primary.solid[1]);
+    /* OVERLAY */
+    --overlay-white-0: theme(colors.overlay.white[1]);
+    --overlay-white-1: theme(colors.overlay.white[2]);
+    --overlay-white-2: theme(colors.overlay.white[3]);
+    --overlay-white-3: theme(colors.overlay.white[4]);
+    --overlay-white-4: theme(colors.overlay.white[5]);
+    --overlay-white-5: theme(colors.overlay.white[6]);
+    --overlay-white-6: theme(colors.overlay.white[7]);
+    --overlay-white-7: theme(colors.overlay.white[8]);
+    --overlay-white-8: theme(colors.overlay.white[9]);
+    --overlay-white-9: theme(colors.overlay.white[10]);
+    --overlay-white-10: theme(colors.overlay.white[11]);
+    --overlay-white-11: theme(colors.overlay.white[12]);
+    --overlay-black-0: theme(colors.overlay.black[1]);
+    --overlay-black-1: theme(colors.overlay.black[2]);
+    --overlay-black-2: theme(colors.overlay.black[3]);
+    --overlay-black-3: theme(colors.overlay.black[4]);
+    --overlay-black-4: theme(colors.overlay.black[5]);
+    --overlay-black-5: theme(colors.overlay.black[6]);
+    --overlay-black-6: theme(colors.overlay.black[7]);
+    --overlay-black-7: theme(colors.overlay.black[8]);
+    --overlay-black-8: theme(colors.overlay.black[9]);
+    --overlay-black-9: theme(colors.overlay.black[10]);
+    --overlay-black-10: theme(colors.overlay.black[11]);
+    --overlay-black-11: theme(colors.overlay.black[12]);
 }
 
 /* DARK SCHEME */
@@ -59,6 +84,31 @@
         --primary-border-2: theme(colors.scheme.dark.primary.border[2]);
         --primary-solid-0: theme(colors.scheme.dark.primary.solid[0]);
         --primary-solid-1: theme(colors.scheme.dark.primary.solid[1]);
+        /* OVERLAY */
+        --overlay-white-0: theme(colors.overlay.white[1]);
+        --overlay-white-1: theme(colors.overlay.white[2]);
+        --overlay-white-2: theme(colors.overlay.white[3]);
+        --overlay-white-3: theme(colors.overlay.white[4]);
+        --overlay-white-4: theme(colors.overlay.white[5]);
+        --overlay-white-5: theme(colors.overlay.white[6]);
+        --overlay-white-6: theme(colors.overlay.white[7]);
+        --overlay-white-7: theme(colors.overlay.white[8]);
+        --overlay-white-8: theme(colors.overlay.white[9]);
+        --overlay-white-9: theme(colors.overlay.white[10]);
+        --overlay-white-10: theme(colors.overlay.white[11]);
+        --overlay-white-11: theme(colors.overlay.white[12]);
+        --overlay-black-0: theme(colors.overlay.black[1]);
+        --overlay-black-1: theme(colors.overlay.black[2]);
+        --overlay-black-2: theme(colors.overlay.black[3]);
+        --overlay-black-3: theme(colors.overlay.black[4]);
+        --overlay-black-4: theme(colors.overlay.black[5]);
+        --overlay-black-5: theme(colors.overlay.black[6]);
+        --overlay-black-6: theme(colors.overlay.black[7]);
+        --overlay-black-7: theme(colors.overlay.black[8]);
+        --overlay-black-8: theme(colors.overlay.black[9]);
+        --overlay-black-9: theme(colors.overlay.black[10]);
+        --overlay-black-10: theme(colors.overlay.black[11]);
+        --overlay-black-11: theme(colors.overlay.black[12]);
     }
 }
 
@@ -90,6 +140,31 @@
     --primary-border-2: theme(colors.scheme.light.primary.border[2]);
     --primary-solid-0: theme(colors.scheme.light.primary.solid[0]);
     --primary-solid-1: theme(colors.scheme.light.primary.solid[1]);
+    /* OVERLAY */
+    --overlay-white-0: theme(colors.overlay.white[1]);
+    --overlay-white-1: theme(colors.overlay.white[2]);
+    --overlay-white-2: theme(colors.overlay.white[3]);
+    --overlay-white-3: theme(colors.overlay.white[4]);
+    --overlay-white-4: theme(colors.overlay.white[5]);
+    --overlay-white-5: theme(colors.overlay.white[6]);
+    --overlay-white-6: theme(colors.overlay.white[7]);
+    --overlay-white-7: theme(colors.overlay.white[8]);
+    --overlay-white-8: theme(colors.overlay.white[9]);
+    --overlay-white-9: theme(colors.overlay.white[10]);
+    --overlay-white-10: theme(colors.overlay.white[11]);
+    --overlay-white-11: theme(colors.overlay.white[12]);
+    --overlay-black-0: theme(colors.overlay.black[1]);
+    --overlay-black-1: theme(colors.overlay.black[2]);
+    --overlay-black-2: theme(colors.overlay.black[3]);
+    --overlay-black-3: theme(colors.overlay.black[4]);
+    --overlay-black-4: theme(colors.overlay.black[5]);
+    --overlay-black-5: theme(colors.overlay.black[6]);
+    --overlay-black-6: theme(colors.overlay.black[7]);
+    --overlay-black-7: theme(colors.overlay.black[8]);
+    --overlay-black-8: theme(colors.overlay.black[9]);
+    --overlay-black-9: theme(colors.overlay.black[10]);
+    --overlay-black-10: theme(colors.overlay.black[11]);
+    --overlay-black-11: theme(colors.overlay.black[12]);
 }
 
 [data-scheme="dark"] {
@@ -119,6 +194,31 @@
     --primary-border-2: theme(colors.scheme.dark.primary.border[2]);
     --primary-solid-0: theme(colors.scheme.dark.primary.solid[0]);
     --primary-solid-1: theme(colors.scheme.dark.primary.solid[1]);
+    /* OVERLAY */
+    --overlay-white-0: theme(colors.overlay.white[1]);
+    --overlay-white-1: theme(colors.overlay.white[2]);
+    --overlay-white-2: theme(colors.overlay.white[3]);
+    --overlay-white-3: theme(colors.overlay.white[4]);
+    --overlay-white-4: theme(colors.overlay.white[5]);
+    --overlay-white-5: theme(colors.overlay.white[6]);
+    --overlay-white-6: theme(colors.overlay.white[7]);
+    --overlay-white-7: theme(colors.overlay.white[8]);
+    --overlay-white-8: theme(colors.overlay.white[9]);
+    --overlay-white-9: theme(colors.overlay.white[10]);
+    --overlay-white-10: theme(colors.overlay.white[11]);
+    --overlay-white-11: theme(colors.overlay.white[12]);
+    --overlay-black-0: theme(colors.overlay.black[1]);
+    --overlay-black-1: theme(colors.overlay.black[2]);
+    --overlay-black-2: theme(colors.overlay.black[3]);
+    --overlay-black-3: theme(colors.overlay.black[4]);
+    --overlay-black-4: theme(colors.overlay.black[5]);
+    --overlay-black-5: theme(colors.overlay.black[6]);
+    --overlay-black-6: theme(colors.overlay.black[7]);
+    --overlay-black-7: theme(colors.overlay.black[8]);
+    --overlay-black-8: theme(colors.overlay.black[9]);
+    --overlay-black-9: theme(colors.overlay.black[10]);
+    --overlay-black-10: theme(colors.overlay.black[11]);
+    --overlay-black-11: theme(colors.overlay.black[12]);
 }
 
 [data-scheme="nord"] {
