@@ -7,6 +7,7 @@
 @import "./elems/forms.css";
 @import "./elems/misc.css";
 @import "./elems/blockquote.css";
+@import "./elems/range.css";
 @import "tailwindcss/components";
 @import "./layout.css";
 @import "./debug.css";
