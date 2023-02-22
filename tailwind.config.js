@@ -169,21 +169,32 @@ module.exports = {
             "xl-6xl": "var(--space-xl-6xl)",
         },
         fontSize: {
-            "000": "var(--step--2)",
-            "00": "var(--step--1)",
-            0: "var(--step-0)",
-            1: "var(--step-1)",
-            2: "var(--step-2)",
-            3: "var(--step-3)",
-            4: "var(--step-4)",
-            5: "var(--step-5)",
-            6: "var(--step-6)",
-            7: "var(--step-7)",
+            "000": "var(--text-000)",
+            "00": "var(--text-00)",
+            0: "var(--text-0)",
+            1: "var(--text-1)",
+            2: "var(--text-2)",
+            3: "var(--text-3)",
+            4: "var(--text-4)",
+            5: "var(--text-5)",
+            6: "var(--text-6)",
+            7: "var(--text-7)",
         },
         fontFamily: {
             sans: "var(--font-sans)",
             serif: "var(--font-serif)",
             mono: "var(--font-mono)",
+        },
+        fontWeight: {
+            thin: "var(--font-thin)",
+            extralight: "var(--font-extralight)",
+            light: "var(--font-light)",
+            normal: "var(--font-normal)",
+            medium: "var(--font-medium)",
+            semibold: "var(--font-semibold)",
+            bold: "var(--font-bold)",
+            extrabold: "var(--font-extrabold)",
+            black: "var(--font-black)",
         },
         letterSpacing: {
             "000": "var(--tracking-000)",
@@ -212,11 +223,23 @@ module.exports = {
         },
         borderWidth: {
             DEFAULT: "var(--border-width-1)",
+            0: "var(--border-width-0)",
             1: "var(--border-width-1)",
             2: "var(--border-width-2)",
             3: "var(--border-width-3)",
             4: "var(--border-width-4)",
             5: "var(--border-width-5)",
+        },
+        borderRadius: {
+            none: "var(--border-radius-none)",
+            s: "var(--border-radius-s)",
+            DEFAULT: "var(--border-radius)",
+            m: "var(--border-radius-m)",
+            l: "var(--border-radius-l)",
+            xl: "var(--border-radius-xl)",
+            "2xl": "var(--border-radius-2xl)",
+            "3xl": "var(--border-radius-3xl)",
+            full: "var(--border-radius-full)",
         },
         screens: {
             md: "50rem",
@@ -230,12 +253,11 @@ module.exports = {
     plugins: [
         ({ matchVariant }) => {
             matchVariant(
-                {
-                    "switcher-max-child": (val) => [
-                        `& > :nth-last-child(n+${val})`,
-                        `& > :nth-last-child(n+${val})~*`,
-                    ],
-                },
+                "switcher-max-child",
+                (val) => [
+                    `& > :nth-last-child(n+${val})`,
+                    `& > :nth-last-child(n+${val})~*`,
+                ],
                 {
                     values: {
                         2: 3,

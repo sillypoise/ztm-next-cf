@@ -1,6 +1,7 @@
 @import "tailwindcss/base";
 @import "./props.css";
 @import "./reset.css";
+@import "./colors.css";
 @import "./schemes.css";
 @import "./base.css";
 @import "./elems/code.css";
