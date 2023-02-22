@@ -4,9 +4,9 @@ import Link from "next/link";
 function CoffeStoreCard({ title, adress, imgURL, imgAlt, href }: { title: string; adress: string; imgURL: string, imgAlt: string, href: string }) {
     return (
 
-        <article className="rounded-lg overflow-hidden shadow-lg stack">
+        <article className="rounded-lg overflow-hidden shadow-lg stack | debug">
             <Link href={href} className="no-underline">
-                <div className="stack [--stack-gap:theme(spacing.xl)] grow-[5] justify-between mbs-m mbe-xs pli-m">
+                <div className="stack [--stack-gap:theme(spacing.xl)] grow-[5] justify-between mbs-s mbe-xs pli-xs">
                     <div className="stack [--stack-gap:theme(spacing.2xs)]">
                         <header className="stack [--stack-gap:theme(spacing.2xs)]">
                             <p className="text-1 font-bold">{title}</p>

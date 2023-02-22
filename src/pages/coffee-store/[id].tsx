@@ -1,19 +1,57 @@
+import { GetStaticPathsContext, GetStaticPropsContext } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { z } from "zod";
+import { coffeeStoresMockData } from "~/test/mocks/coffeeStoresData";
 
-export default function CoffeeStore() {
+interface ICoffeeStoreProps {
+    id: number;
+    name: string;
+    address: string;
+    image: string;
+}
+
+export default function CoffeeStore({ store }: { store: ICoffeeStoreProps }) {
     let router = useRouter();
     let querySegment = router.query.id;
-    console.log({ querySegment });
     return (
         <>
             <main>
                 <Link href="/">Back to Home</Link>
                 <article className="center stack mlb-l">
-                    <h2>Coffee Layout</h2>
+                    <h2>{store.name}</h2>
+                    <p>{store.address}</p>
+                    <Image src={store.image} alt="generic coffee store" width={600} height={850}  />
                 </article>
             </main>
         </>
     );
 }
 
+export async function getStaticProps(ctx: GetStaticPropsContext) {
+    if (!ctx.params) {
+        return {
+            props: {
+                error: "No params found",
+            }
+        }
+    }
+    let querySegment = ctx.params["id"];
+    let parsedQuerySegment = z.string().parse(querySegment)
+    let stores = coffeeStoresMockData;
+    let store = stores.find((store) => store.id === parseInt(parsedQuerySegment))
+    return {
+        props: {
+            store,
+        }
+    }
+}
+
+export async function getStaticPaths(ctx: GetStaticPathsContext) {
+    let stores = coffeeStoresMockData;
+    return {
+        paths: stores.map((store) => ({ params: { id: store.id.toString() } })),
+        fallback: false,
+    }
+}
