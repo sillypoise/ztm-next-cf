@@ -1,14 +1,20 @@
 import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "@next/font/google";
-import { useRef } from "react";
 import { CoffeStoreCard } from "~/components/CoffeeCard";
 import { coffeeStoresMockData } from "~/test/mocks/coffeeStoresData"
 
-const inter = Inter({ subsets: ["latin"] });
+interface CoffeeStore {
+    id: number;
+    name: string;
+    address: string;
+    image: string;
+}
 
-export default function Home() {
-    const dialogRef = useRef(null)
+interface IHomeProps {
+    stores: Array<CoffeeStore>
+}
+
+
+export default function Home({ stores }: IHomeProps) {
     return (
         <>
             <Head>
@@ -27,8 +33,9 @@ export default function Home() {
                     <h2>Coffee Finder</h2>
                     <p>Discover your new favourite coffee shop</p>
                     <button>View stores nearby</button>
+                    {/* <pre>{JSON.stringify(stores, null, 4)}</pre> */}
                     <section className="auto-grid gap-2xs" data-layout="2/2" data-rows="masonry">
-                        {coffeeStoresMockData.map((store, i) => (
+                        {stores.map((store, i) => (
                             <CoffeStoreCard
                                 key={store.id}
                                 title={store.name}
@@ -44,3 +51,13 @@ export default function Home() {
         </>
     );
 }
+
+export async function getStaticProps(ctx) {
+    const stores = coffeeStoresMockData;
+    return {
+        props: {
+            stores,
+        }
+    }
+}
+
