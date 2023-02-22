@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { CoffeStoreCard } from "~/components/CoffeeCard";
-import { coffeeStoresMockData } from "~/test/mocks/coffeeStoresData"
+import { useGeolocation } from "~/hooks/useGeolocation";
+import { coffeeStoresMockData } from "~/test/mocks/coffeeStoresData";
 
 interface CoffeeStore {
     id: number;
@@ -10,11 +11,21 @@ interface CoffeeStore {
 }
 
 interface IHomeProps {
-    stores: Array<CoffeeStore>
+    stores: Array<CoffeeStore>;
 }
 
-
 export default function Home({ stores }: IHomeProps) {
+    let { handleTrackLocation, position, error, loading } = useGeolocation();
+
+    function handleClick() {
+        handleTrackLocation();
+    }
+
+    if (position) {
+        let { latitude, longitude } = position?.coords;
+        console.log({ latitude, longitude });
+    }
+
     return (
         <>
             <Head>
@@ -32,9 +43,25 @@ export default function Home({ stores }: IHomeProps) {
                 <article className="center stack mlb-l">
                     <h2>Coffee Finder</h2>
                     <p>Discover your new favourite coffee shop</p>
-                    <button>View stores nearby</button>
-                    {/* <pre>{JSON.stringify(stores, null, 4)}</pre> */}
-                    <section className="auto-grid gap-xl" data-layout="2/2" data-rows="masonry">
+                    <button disabled={loading} onClick={handleClick}>
+                        {loading ? "..." : "Find my location"}
+                    </button>
+                    {error ? (
+                        <p>Something went wrong {error?.message}</p>
+                    ) : null}
+
+                    {position ? (
+                        <p>
+                            {position?.coords.latitude},{" "}
+                            {position?.coords.longitude}
+                        </p>
+                    ) : null}
+
+                    <section
+                        className="auto-grid gap-xl"
+                        data-layout="2/2"
+                        data-rows="masonry"
+                    >
                         {stores.map((store, i) => (
                             <CoffeStoreCard
                                 key={store.id}
@@ -57,7 +84,6 @@ export async function getStaticProps(ctx) {
     return {
         props: {
             stores,
-        }
-    }
+        },
+    };
 }
-
