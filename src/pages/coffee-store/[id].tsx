@@ -15,6 +15,20 @@ interface ICoffeeStoreProps {
 export default function CoffeeStore({ store }: { store: ICoffeeStoreProps }) {
     let router = useRouter();
     let querySegment = router.query.id;
+
+    if (router.isFallback) {
+        return (
+            <>
+                <main>
+                    <Link href="/">Back to Home</Link>
+                    <article className="center stack mlb-l">
+                        <h2>Loading...</h2>
+                    </article>
+                </main>
+            </>
+        );
+    }
+
     return (
         <>
             <main>
@@ -22,7 +36,12 @@ export default function CoffeeStore({ store }: { store: ICoffeeStoreProps }) {
                 <article className="center stack mlb-l">
                     <h2>{store.name}</h2>
                     <p>{store.address}</p>
-                    <Image src={store.image} alt="generic coffee store" width={600} height={850}  />
+                    <Image
+                        src={store.image}
+                        alt="generic coffee store"
+                        width={600}
+                        height={850}
+                    />
                 </article>
             </main>
         </>
@@ -34,24 +53,38 @@ export async function getStaticProps(ctx: GetStaticPropsContext) {
         return {
             props: {
                 error: "No params found",
-            }
-        }
+            },
+        };
     }
     let querySegment = ctx.params["id"];
-    let parsedQuerySegment = z.string().parse(querySegment)
+    let parsedQuerySegment = z.string().parse(querySegment);
     let stores = coffeeStoresMockData;
-    let store = stores.find((store) => store.id === parseInt(parsedQuerySegment))
+    let store = stores.find(
+        (store) => store.id === parseInt(parsedQuerySegment)
+    );
+    if (!store) {
+        return {
+            props: {
+                store: {
+                    id: parseInt(parsedQuerySegment),
+                    name: "Not Found",
+                    address: "Not Found",
+                    image: "https://unsplash.com/photos/3b2tADGAWnU/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8OHx8Y29mZmVlJTIwc2hvcHxlbnwwfHx8fDE2NzcwNTg1NTU&force=true&w=1920",
+                },
+            },
+        };
+    }
     return {
         props: {
             store,
-        }
-    }
+        },
+    };
 }
 
 export async function getStaticPaths(ctx: GetStaticPathsContext) {
     let stores = coffeeStoresMockData;
     return {
         paths: stores.map((store) => ({ params: { id: store.id.toString() } })),
-        fallback: false,
-    }
+        fallback: true,
+    };
 }

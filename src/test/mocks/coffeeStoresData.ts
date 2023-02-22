@@ -76,6 +76,13 @@ let coffeeStoresMockData = [
         "name": "Daily Grind Cafe",
         "address": "654 Twelfth St",
         "image": "https://unsplash.com/photos/3b2tADGAWnU/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8OHx8Y29mZmVlJTIwc2hvcHxlbnwwfHx8fDE2NzcwNTg1NTU&force=true&w=1920"
+    },
+
+    {
+        "id": 300,
+        "name": "Route 300",
+        "address": "300 Route 300",
+        "image": "https://unsplash.com/photos/3b2tADGAWnU/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8OHx8Y29mZmVlJTIwc2hvcHxlbnwwfHx8fDE2NzcwNTg1NTU&force=true&w=1920"
     }
 ]
 
