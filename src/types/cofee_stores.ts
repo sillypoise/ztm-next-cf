@@ -19,8 +19,28 @@ let store_schema = z
 
 let stores_schema = z.array(store_schema);
 
+let image_schema = z.object({
+    id: z.string(),
+    width: z.number(),
+    height: z.number(),
+    description: z.string().catch(() => "No description found"),
+    alt_description: z.string(),
+    urls: z.object({
+        regular: z.string(),
+        small: z.string(),
+        thumb: z.string(),
+    }),
+    user: z.object({
+        name: z.string(),
+    }),
+});
+
+let images_schema = z.array(image_schema);
+
 type IStore = z.infer<typeof store_schema>;
 type IStores = z.infer<typeof stores_schema>;
+type IImage = z.infer<typeof image_schema>;
+type IImages = z.infer<typeof images_schema>;
 
-export { stores_schema, store_schema };
-export type { IStore, IStores };
+export { stores_schema, store_schema, image_schema, images_schema };
+export type { IStore, IStores, IImage, IImages };

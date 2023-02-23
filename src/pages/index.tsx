@@ -1,8 +1,10 @@
+import { log } from "console";
 import Head from "next/head";
 import { CoffeStoreCard } from "~/components/CoffeeCard";
+import { fetchInitialImages } from "~/hooks/fetchInitialImages";
 import { fetchInitialStores } from "~/hooks/fetchInitialStores";
 import { useGeolocation } from "~/hooks/useGeolocation";
-import { IStores, stores_schema } from "~/types/cofee_stores";
+import { images_schema, IStores, stores_schema } from "~/types/cofee_stores";
 
 interface IHomeProps {
     stores: IStores;
@@ -77,7 +79,18 @@ export async function getStaticProps(ctx) {
     let fsq_results = await fetchInitialStores({
         ll: "4.6959947138560585,-74.04567805371171",
     });
+    let unsplsh_results = await fetchInitialImages();
+
     let parsed_stores = stores_schema.parse(fsq_results);
+    let parsed_images = images_schema.parse(unsplsh_results);
+    // get six random images from the array
+    let random_images = parsed_images.sort(() => Math.random() - 0.5);
+    let random_images_sliced = random_images.slice(0, 6);
+
+    // add the images to the stores
+    parsed_stores.forEach((store, index) => {
+        store.image = random_images_sliced[index].urls.regular;
+    });
 
     return {
         props: {

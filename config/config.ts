@@ -66,6 +66,9 @@ let configSchema = z.object({
         foursquare: z.object({
             auth: z.string(),
         }),
+        unsplash: z.object({
+            access_key: z.string(),
+        }),
     }),
     // sentry,
     // git: z.object({
@@ -78,6 +81,9 @@ export let config = configSchema.parse({
     services: {
         foursquare: {
             auth: envToStr(process.env.FSQ_PLACES_API_KEY),
+        },
+        unsplash: {
+            access_key: envToStr(process.env.UNSPLASH_ACCESS_KEY),
         },
     },
 });

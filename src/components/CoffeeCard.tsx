@@ -27,6 +27,7 @@ function CoffeStoreCard({
                             alt={imgAlt}
                             width={400}
                             height={200}
+                            className="object-cover aspect-[1.45]"
                         />
                     </div>
                     <div>
