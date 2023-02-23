@@ -3,7 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { z } from "zod";
+import { fetchInitialStores } from "~/hooks/fetchInitialStores";
 import { coffeeStoresMockData } from "~/test/mocks/coffeeStoresData";
+import { stores_schema } from "~/types/cofee_stores";
 
 interface ICoffeeStoreProps {
     id: number;
@@ -58,10 +60,13 @@ export async function getStaticProps(ctx: GetStaticPropsContext) {
     }
     let querySegment = ctx.params["id"];
     let parsedQuerySegment = z.string().parse(querySegment);
-    let stores = coffeeStoresMockData;
-    let store = stores.find(
-        (store) => store.id === parseInt(parsedQuerySegment)
-    );
+
+    let fsq_results = await fetchInitialStores({
+        ll: "4.6959947138560585,-74.04567805371171",
+    });
+    let parsed_stores = stores_schema.parse(fsq_results);
+
+    let store = parsed_stores.find((store) => store.id === parsedQuerySegment);
     if (!store) {
         return {
             props: {
@@ -82,9 +87,14 @@ export async function getStaticProps(ctx: GetStaticPropsContext) {
 }
 
 export async function getStaticPaths(ctx: GetStaticPathsContext) {
-    let stores = coffeeStoresMockData;
+    let fsq_results = await fetchInitialStores({
+        ll: "4.6959947138560585,-74.04567805371171",
+    });
+    let parsed_stores = stores_schema.parse(fsq_results);
     return {
-        paths: stores.map((store) => ({ params: { id: store.id.toString() } })),
+        paths: parsed_stores.map((store) => ({
+            params: { id: store.id.toString() },
+        })),
         fallback: true,
     };
 }

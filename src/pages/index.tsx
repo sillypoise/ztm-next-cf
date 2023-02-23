@@ -1,17 +1,11 @@
 import Head from "next/head";
 import { CoffeStoreCard } from "~/components/CoffeeCard";
+import { fetchInitialStores } from "~/hooks/fetchInitialStores";
 import { useGeolocation } from "~/hooks/useGeolocation";
-import { coffeeStoresMockData } from "~/test/mocks/coffeeStoresData";
-
-interface CoffeeStore {
-    id: number;
-    name: string;
-    address: string;
-    image: string;
-}
+import { IStores, stores_schema } from "~/types/cofee_stores";
 
 interface IHomeProps {
-    stores: Array<CoffeeStore>;
+    stores: IStores;
 }
 
 export default function Home({ stores }: IHomeProps) {
@@ -62,11 +56,11 @@ export default function Home({ stores }: IHomeProps) {
                         data-layout="2/2"
                         data-rows="masonry"
                     >
-                        {stores.map((store, i) => (
+                        {stores.map((store) => (
                             <CoffeStoreCard
                                 key={store.id}
                                 title={store.name}
-                                adress="1234 Coffee Street, Coffee City, Coffee Country"
+                                address={store.address}
                                 imgURL={store.image}
                                 imgAlt="generic coffee store"
                                 href={`/coffee-store/${store.id}`}
@@ -80,10 +74,14 @@ export default function Home({ stores }: IHomeProps) {
 }
 
 export async function getStaticProps(ctx) {
-    const stores = coffeeStoresMockData;
+    let fsq_results = await fetchInitialStores({
+        ll: "4.6959947138560585,-74.04567805371171",
+    });
+    let parsed_stores = stores_schema.parse(fsq_results);
+
     return {
         props: {
-            stores,
+            stores: parsed_stores,
         },
     };
 }
