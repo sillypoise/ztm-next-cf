@@ -1,26 +1,37 @@
-import { log } from "console";
 import Head from "next/head";
+import { useEffect, useState } from "react";
 import { CoffeStoreCard } from "~/components/CoffeeCard";
-import { fetchInitialImages } from "~/hooks/fetchInitialImages";
-import { fetchInitialStores } from "~/hooks/fetchInitialStores";
+import { fetchStores } from "~/hooks/fetchStores";
 import { useGeolocation } from "~/hooks/useGeolocation";
-import { images_schema, IStores, stores_schema } from "~/types/cofee_stores";
+import { IStores } from "~/types/cofee_stores";
 
 interface IHomeProps {
     stores: IStores;
 }
 
 export default function Home({ stores }: IHomeProps) {
-    let { handleTrackLocation, position, error, loading } = useGeolocation();
+    let [nearbyStores, setNearbyStores] = useState<IStores>([]);
+    let { handleTrackLocation, position, error } = useGeolocation();
+    let [showNearby, setShowNearby] = useState<boolean>(false);
+    let [loading, setLoading] = useState<boolean>(false);
 
     function handleClick() {
         handleTrackLocation();
     }
 
-    if (position) {
-        let { latitude, longitude } = position?.coords;
-        console.log({ latitude, longitude });
-    }
+    useEffect(() => {
+        if (position) {
+            setLoading(true);
+            setShowNearby(true);
+            let ll = `${position?.coords.latitude},${position?.coords.longitude}`;
+            fetchStores({ ll, limit: 30 })
+                .then((res) => {
+                    res ? setNearbyStores(res) : null;
+                    setLoading(false);
+                })
+                .catch((err) => console.error(err));
+        }
+    }, [position]);
 
     return (
         <>
@@ -39,62 +50,58 @@ export default function Home({ stores }: IHomeProps) {
                 <article className="center stack mlb-l">
                     <h2>Coffee Finder</h2>
                     <p>Discover your new favourite coffee shop</p>
-                    <button disabled={loading} onClick={handleClick}>
-                        {loading ? "..." : "Find my location"}
+                    <button disabled={loading} onClick={() => handleClick()}>
+                        {loading ? "..." : "Find stores near me!"}
                     </button>
                     {error ? (
                         <p>Something went wrong {error?.message}</p>
                     ) : null}
-
-                    {position ? (
-                        <p>
-                            {position?.coords.latitude},{" "}
-                            {position?.coords.longitude}
-                        </p>
+                    {nearbyStores.length ? (
+                        <header>
+                            <p className="text-2">
+                                {nearbyStores.length} nearby coffee shops!
+                            </p>
+                        </header>
                     ) : null}
-
-                    <section
-                        className="auto-grid gap-xl"
-                        data-layout="2/2"
-                        data-rows="masonry"
-                    >
-                        {stores.map((store) => (
-                            <CoffeStoreCard
-                                key={store.id}
-                                title={store.name}
-                                address={store.address}
-                                imgURL={store.image}
-                                imgAlt="generic coffee store"
-                                href={`/coffee-store/${store.id}`}
-                            />
-                        ))}
-                    </section>
+                    {showNearby && nearbyStores.length ? (
+                        <StoreGrid stores={nearbyStores} />
+                    ) : null}
+                    {showNearby && nearbyStores.length ? <hr /> : null}
+                    <StoreGrid stores={stores} />
                 </article>
             </main>
         </>
     );
 }
 
+function StoreGrid({ stores }: { stores: IStores }) {
+    return (
+        <section
+            className="auto-grid gap-xl"
+            data-layout="2/2"
+            data-rows="masonry"
+        >
+            {stores.map((store) => (
+                <CoffeStoreCard
+                    key={store.id}
+                    title={store.name}
+                    address={store.address}
+                    image={store.image}
+                    href={`/coffee-store/${store.id}`}
+                />
+            ))}
+        </section>
+    );
+}
+
 export async function getStaticProps(ctx) {
-    let fsq_results = await fetchInitialStores({
-        ll: "4.6959947138560585,-74.04567805371171",
-    });
-    let unsplsh_results = await fetchInitialImages();
-
-    let parsed_stores = stores_schema.parse(fsq_results);
-    let parsed_images = images_schema.parse(unsplsh_results);
-    // get six random images from the array
-    let random_images = parsed_images.sort(() => Math.random() - 0.5);
-    let random_images_sliced = random_images.slice(0, 6);
-
-    // add the images to the stores
-    parsed_stores.forEach((store, index) => {
-        store.image = random_images_sliced[index].urls.regular;
+    let stores = await fetchStores({
+        ll: "4.61616139773357,-74.07026744213343",
     });
 
     return {
         props: {
-            stores: parsed_stores,
+            stores,
         },
     };
 }

@@ -14,7 +14,13 @@ let store_schema = z
         id: val.fsq_id,
         name: val.name,
         address: val.location?.address,
-        image: "https://unsplash.com/photos/3b2tADGAWnU/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8OHx8Y29mZmVlJTIwc2hvcHxlbnwwfHx8fDE2NzcwNTg1NTU&force=true&w=1920",
+        image: {
+            url: "https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?crop=entropy&cs=tinysrgb&fm=jpg&ixid=Mnw0MTQzMzB8MHwxfHNlYXJjaHwyfHxjb2ZmZWUlMjBzaG9wfGVufDB8fHx8MTY3NzE3NzI0MQ&ixlib=rb-4.0.3&q=80",
+            height: 4480,
+            width: 6720,
+            description: "No description found",
+            alt_description: "placeholder coffee shop image",
+        },
     }));
 
 let stores_schema = z.array(store_schema);
@@ -24,7 +30,7 @@ let image_schema = z.object({
     width: z.number(),
     height: z.number(),
     description: z.string().catch(() => "No description found"),
-    alt_description: z.string(),
+    alt_description: z.string().catch(() => "no alt_description found"),
     urls: z.object({
         regular: z.string(),
         small: z.string(),

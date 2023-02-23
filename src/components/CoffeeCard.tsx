@@ -4,14 +4,18 @@ import Link from "next/link";
 function CoffeStoreCard({
     title,
     address,
-    imgURL,
-    imgAlt,
+    image,
     href,
 }: {
     title: string;
     address: string;
-    imgURL: string;
-    imgAlt: string;
+    image: {
+        url: string;
+        height: number;
+        width: number;
+        description: string;
+        alt_description: string;
+    };
     href: string;
 }) {
     return (
@@ -23,11 +27,11 @@ function CoffeStoreCard({
                             <p className="text-1 font-bold">{title}</p>
                         </header>
                         <Image
-                            src={imgURL}
-                            alt={imgAlt}
-                            width={400}
-                            height={200}
-                            className="object-cover aspect-[1.45]"
+                            src={image.url}
+                            alt={image.alt_description}
+                            height={image.height}
+                            width={image.width}
+                            className="object-cover aspect-[1.45] w-auto h-auto"
                         />
                     </div>
                     <div>

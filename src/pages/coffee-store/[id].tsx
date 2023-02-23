@@ -3,18 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { z } from "zod";
-import { fetchInitialStores } from "~/hooks/fetchInitialStores";
-import { coffeeStoresMockData } from "~/test/mocks/coffeeStoresData";
-import { stores_schema } from "~/types/cofee_stores";
+import { fetchStores } from "~/hooks/fetchStores";
+import { IStore } from "~/types/cofee_stores";
 
-interface ICoffeeStoreProps {
-    id: number;
-    name: string;
-    address: string;
-    image: string;
-}
-
-export default function CoffeeStore({ store }: { store: ICoffeeStoreProps }) {
+export default function CoffeeStore({ store }: { store: IStore }) {
     let router = useRouter();
     let querySegment = router.query.id;
 
@@ -39,10 +31,11 @@ export default function CoffeeStore({ store }: { store: ICoffeeStoreProps }) {
                     <h2>{store.name}</h2>
                     <p>{store.address}</p>
                     <Image
-                        src={store.image}
-                        alt="generic coffee store"
-                        width={600}
-                        height={850}
+                        src={store.image.url}
+                        alt={store.image.alt_description}
+                        width={store.image.width}
+                        height={store.image.height}
+                        className="object-cover aspect-[1.78] w-auto h-auto"
                     />
                 </article>
             </main>
@@ -61,12 +54,12 @@ export async function getStaticProps(ctx: GetStaticPropsContext) {
     let querySegment = ctx.params["id"];
     let parsedQuerySegment = z.string().parse(querySegment);
 
-    let fsq_results = await fetchInitialStores({
-        ll: "4.6959947138560585,-74.04567805371171",
+    let stores = await fetchStores({
+        ll: "4.61616139773357,-74.07026744213343",
     });
-    let parsed_stores = stores_schema.parse(fsq_results);
 
-    let store = parsed_stores.find((store) => store.id === parsedQuerySegment);
+    let store = stores?.find((store) => store.id === parsedQuerySegment);
+
     if (!store) {
         return {
             props: {
@@ -87,12 +80,12 @@ export async function getStaticProps(ctx: GetStaticPropsContext) {
 }
 
 export async function getStaticPaths(ctx: GetStaticPathsContext) {
-    let fsq_results = await fetchInitialStores({
-        ll: "4.6959947138560585,-74.04567805371171",
+    let stores = await fetchStores({
+        ll: "4.61616139773357,-74.07026744213343",
     });
-    let parsed_stores = stores_schema.parse(fsq_results);
+
     return {
-        paths: parsed_stores.map((store) => ({
+        paths: stores?.map((store) => ({
             params: { id: store.id.toString() },
         })),
         fallback: true,
