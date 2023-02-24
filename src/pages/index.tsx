@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { CoffeStoreCard } from "~/components/CoffeeCard";
 import { fetchStores } from "~/hooks/fetchStores";
 import { useGeolocation } from "~/hooks/useGeolocation";
+import { useAppStore } from "~/lib/zustand";
 import { IStores } from "~/types/cofee_stores";
 
 interface IHomeProps {
@@ -10,9 +11,9 @@ interface IHomeProps {
 }
 
 export default function Home({ stores }: IHomeProps) {
-    let [nearbyStores, setNearbyStores] = useState<IStores>([]);
-    let { handleTrackLocation, position, error } = useGeolocation();
-    let [showNearby, setShowNearby] = useState<boolean>(false);
+    let { handleTrackLocation, latlong, error } = useGeolocation();
+    let nearbyStores = useAppStore((state) => state.nearbyStores);
+    let setNearbyStores = useAppStore((state) => state.setNearbyStores);
     let [loading, setLoading] = useState<boolean>(false);
 
     function handleClick() {
@@ -20,18 +21,16 @@ export default function Home({ stores }: IHomeProps) {
     }
 
     useEffect(() => {
-        if (position) {
+        if (latlong && !nearbyStores.length) {
             setLoading(true);
-            setShowNearby(true);
-            let ll = `${position?.coords.latitude},${position?.coords.longitude}`;
-            fetchStores({ ll, limit: 30 })
+            fetchStores({ ll: latlong, limit: 30 })
                 .then((res) => {
                     res ? setNearbyStores(res) : null;
                     setLoading(false);
                 })
                 .catch((err) => console.error(err));
         }
-    }, [position]);
+    }, [latlong, setNearbyStores, nearbyStores]);
 
     return (
         <>
@@ -63,10 +62,10 @@ export default function Home({ stores }: IHomeProps) {
                             </p>
                         </header>
                     ) : null}
-                    {showNearby && nearbyStores.length ? (
+                    {nearbyStores.length ? (
                         <StoreGrid stores={nearbyStores} />
                     ) : null}
-                    {showNearby && nearbyStores.length ? <hr /> : null}
+                    {nearbyStores.length ? <hr /> : null}
                     <StoreGrid stores={stores} />
                 </article>
             </main>

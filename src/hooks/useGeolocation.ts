@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
+import { useAppStore } from "~/lib/zustand";
 
 function useGeolocation() {
-    let [position, setPosition] = useState<GeolocationPosition>();
     let [error, setError] = useState<GeolocationPositionError>();
 
+    let setLatLong = useAppStore((state) => state.setLatlong);
+    let latlong = useAppStore((state) => state.latlong);
+
     function onSuccess(position: GeolocationPosition) {
-        setPosition(position);
+        let latlong = `${position.coords.latitude},${position.coords.longitude}`;
+        setLatLong(latlong);
     }
 
     function onError(error: GeolocationPositionError) {
@@ -29,7 +33,7 @@ function useGeolocation() {
         geo.getCurrentPosition(onSuccess, onError);
     }
 
-    return { handleTrackLocation, position, error };
+    return { handleTrackLocation, latlong, error };
 }
 
 export { useGeolocation };
