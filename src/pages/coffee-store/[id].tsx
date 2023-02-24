@@ -4,12 +4,22 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { z } from "zod";
 import { fetchStores } from "~/hooks/fetchStores";
+import { useAppStore } from "~/lib/zustand";
 import { IStore } from "~/types/cofee_stores";
 
-export default function CoffeeStore({ store }: { store: IStore }) {
+export default function CoffeeStore({
+    store,
+    notFound,
+}: {
+    store: IStore;
+    notFound?: boolean;
+}) {
     let router = useRouter();
-    let querySegment = router.query.id;
+    let storeId = router.query.id;
+    let nearbyStores = useAppStore((state) => state.nearbyStores);
+    let storeById = nearbyStores.find((store) => store.id === storeId);
 
+    // If the page is not yet generated, this will be displayed
     if (router.isFallback) {
         return (
             <>
@@ -21,6 +31,12 @@ export default function CoffeeStore({ store }: { store: IStore }) {
                 </main>
             </>
         );
+    }
+
+    // If the page is not found through getStaticProps we search for it in the nearbyStores client-side
+    // we reassign the initial store prop to the store found in the nearbyStores
+    if (notFound && storeById) {
+        store = storeById;
     }
 
     return (
@@ -51,23 +67,28 @@ export async function getStaticProps(ctx: GetStaticPropsContext) {
             },
         };
     }
-    let querySegment = ctx.params["id"];
-    let parsedQuerySegment = z.string().parse(querySegment);
+    let querySegment = z.string().parse(ctx.params["id"]);
 
     let stores = await fetchStores({
         ll: "4.61616139773357,-74.07026744213343",
     });
 
-    let store = stores?.find((store) => store.id === parsedQuerySegment);
+    let store = stores?.find((store) => store.id === querySegment);
 
     if (!store) {
         return {
             props: {
+                notFound: true,
                 store: {
-                    id: parseInt(parsedQuerySegment),
+                    id: parseInt(querySegment),
                     name: "Not Found",
                     address: "Not Found",
-                    image: "https://unsplash.com/photos/3b2tADGAWnU/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8OHx8Y29mZmVlJTIwc2hvcHxlbnwwfHx8fDE2NzcwNTg1NTU&force=true&w=1920",
+                    image: {
+                        url: "https://unsplash.com/photos/3b2tADGAWnU/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8OHx8Y29mZmVlJTIwc2hvcHxlbnwwfHx8fDE2NzcwNTg1NTU&force=true&w=1920",
+                        alt_description: "Not Found",
+                        width: 1920,
+                        height: 1280,
+                    },
                 },
             },
         };
