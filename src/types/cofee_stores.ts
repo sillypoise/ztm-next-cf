@@ -24,6 +24,8 @@ let store_schema = z
     }));
 
 let stores_schema = z.array(store_schema);
+// TODO: create a schema parser for transformed store-schema
+// let api_stores_schema = z.array();
 
 let image_schema = z.object({
     id: z.string(),

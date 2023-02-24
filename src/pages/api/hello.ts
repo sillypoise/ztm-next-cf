@@ -1,13 +1,27 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from "next";
+import { z } from "zod";
+import { getStoresByLocation } from "~/models/stores.model";
+import { IStores } from "~/types/cofee_stores";
 
-type Data = {
-  name: string
+interface IResponseData {
+    stores: IStores;
 }
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
+interface IQueryParmas {
+    latlong: string;
+    limit?: string;
+}
+
+interface IResponseError {
+    error: {
+        stack: Error["stack"];
+        message: Error["message"];
+    };
+}
+
+export default async function hello(
+    req: NextApiRequest,
+    res: NextApiResponse<IResponseData | IResponseError>
 ) {
-  res.status(200).json({ name: 'John Doe' })
+    res.status(200).json({ name: "hello" });
 }

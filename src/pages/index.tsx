@@ -4,6 +4,8 @@ import { CoffeStoreCard } from "~/components/CoffeeCard";
 import { fetchStores } from "~/hooks/fetchStores";
 import { useGeolocation } from "~/hooks/useGeolocation";
 import { useAppStore } from "~/lib/zustand";
+import { getStoresByLocation } from "~/models/stores.model";
+import { coffeeStoresMockData } from "~/test/mocks/coffeeStoresData";
 import { IStores } from "~/types/cofee_stores";
 
 interface IHomeProps {
@@ -23,7 +25,7 @@ export default function Home({ stores }: IHomeProps) {
     useEffect(() => {
         if (latlong && !nearbyStores.length) {
             setLoading(true);
-            fetchStores({ ll: latlong, limit: 30 })
+            fetchStores({ ll: latlong, limit: 2 })
                 .then((res) => {
                     res ? setNearbyStores(res) : null;
                     setLoading(false);
@@ -94,8 +96,9 @@ function StoreGrid({ stores }: { stores: IStores }) {
 }
 
 export async function getStaticProps(ctx) {
-    let stores = await fetchStores({
+    let stores = await getStoresByLocation({
         ll: "4.61616139773357,-74.07026744213343",
+        limit: 6,
     });
 
     return {
