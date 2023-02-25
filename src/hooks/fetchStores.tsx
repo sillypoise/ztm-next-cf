@@ -1,5 +1,5 @@
 import { config } from "config/config";
-import { stores_schema } from "~/types/cofee_stores";
+import { api_stores_schema, stores_schema } from "~/types/cofee_stores";
 
 async function fetchStores({ ll, limit = 6 }: { ll: string; limit?: number }) {
     try {
@@ -14,6 +14,7 @@ async function fetchStores({ ll, limit = 6 }: { ll: string; limit?: number }) {
             },
         });
         let json = await results.json();
+        let stores = api_stores_schema.parse(json["stores"]);
 
         return stores;
     } catch (err) {

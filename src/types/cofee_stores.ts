@@ -24,8 +24,23 @@ let store_schema = z
     }));
 
 let stores_schema = z.array(store_schema);
-// TODO: create a schema parser for transformed store-schema
-// let api_stores_schema = z.array();
+
+// create new schema based off transformed stores_schema
+
+let api_stores_schema = z.array(
+    z.object({
+        id: z.string(),
+        name: z.string(),
+        address: z.string().default("No address found"),
+        image: z.object({
+            url: z.string(),
+            height: z.number(),
+            width: z.number(),
+            description: z.string().catch(() => "No description found"),
+            alt_description: z.string().catch(() => "no alt_description found"),
+        }),
+    })
+);
 
 let image_schema = z.object({
     id: z.string(),
@@ -50,5 +65,11 @@ type IStores = z.infer<typeof stores_schema>;
 type IImage = z.infer<typeof image_schema>;
 type IImages = z.infer<typeof images_schema>;
 
-export { stores_schema, store_schema, image_schema, images_schema };
+export {
+    stores_schema,
+    api_stores_schema,
+    store_schema,
+    image_schema,
+    images_schema,
+};
 export type { IStore, IStores, IImage, IImages };

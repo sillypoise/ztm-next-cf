@@ -3,8 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { z } from "zod";
-import { fetchStores } from "~/hooks/fetchStores";
 import { useAppStore } from "~/lib/zustand";
+import { getStoresByLocation } from "~/models/stores.model";
 import { IStore } from "~/types/cofee_stores";
 
 export default function CoffeeStore({
@@ -69,8 +69,9 @@ export async function getStaticProps(ctx: GetStaticPropsContext) {
     }
     let querySegment = z.string().parse(ctx.params["id"]);
 
-    let stores = await fetchStores({
+    let stores = await getStoresByLocation({
         ll: "4.61616139773357,-74.07026744213343",
+        limit: 6,
     });
 
     let store = stores?.find((store) => store.id === querySegment);
@@ -101,8 +102,9 @@ export async function getStaticProps(ctx: GetStaticPropsContext) {
 }
 
 export async function getStaticPaths(ctx: GetStaticPathsContext) {
-    let stores = await fetchStores({
+    let stores = await getStoresByLocation({
         ll: "4.61616139773357,-74.07026744213343",
+        limit: 6,
     });
 
     return {

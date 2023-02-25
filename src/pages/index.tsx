@@ -5,7 +5,6 @@ import { fetchStores } from "~/hooks/fetchStores";
 import { useGeolocation } from "~/hooks/useGeolocation";
 import { useAppStore } from "~/lib/zustand";
 import { getStoresByLocation } from "~/models/stores.model";
-import { coffeeStoresMockData } from "~/test/mocks/coffeeStoresData";
 import { IStores } from "~/types/cofee_stores";
 
 interface IHomeProps {
@@ -25,7 +24,7 @@ export default function Home({ stores }: IHomeProps) {
     useEffect(() => {
         if (latlong && !nearbyStores.length) {
             setLoading(true);
-            fetchStores({ ll: latlong, limit: 2 })
+            fetchStores({ ll: latlong, limit: 30 })
                 .then((res) => {
                     res ? setNearbyStores(res) : null;
                     setLoading(false);
