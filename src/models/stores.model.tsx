@@ -4,7 +4,8 @@ import { db } from "~/lib/pg";
 
 async function probe_pg() {
     try {
-        await db.query("SELECT NOW()");
+        let res = await db.query("SELECT NOW()");
+        console.log(res);
     } catch (err) {
         console.error(err);
     }
@@ -48,7 +49,7 @@ async function getStoresByLocation({
                 method: "GET",
                 headers: {
                     Accept: "application/json",
-                    Authorization: config.services.foursquare.client_auth,
+                    Authorization: config.services.foursquare.auth,
                 },
             }
         );
@@ -85,7 +86,7 @@ async function fetchImages({ limit = 6 }: { limit?: number }) {
             page: "1",
             per_page: "50",
             query: "coffee shop",
-            client_id: config.services.unsplash.client_auth,
+            client_id: config.services.unsplash.access_key,
         });
         let results = await fetch(
             `https://api.unsplash.com/search/photos?${searchParams}`,
@@ -105,4 +106,4 @@ async function fetchImages({ limit = 6 }: { limit?: number }) {
     }
 }
 
-export { getStoresByLocation };
+export { getStoresByLocation, probe_pg };

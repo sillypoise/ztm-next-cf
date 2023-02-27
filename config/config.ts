@@ -65,11 +65,11 @@ let configSchema = z.object({
     services: z.object({
         foursquare: z.object({
             auth: z.string(),
-            client_auth: z.string(),
+            // client_auth: z.string(),
         }),
         unsplash: z.object({
             access_key: z.string(),
-            client_auth: z.string(),
+            // client_auth: z.string(),
         }),
     }),
     // sentry,
@@ -94,11 +94,11 @@ export let config = configSchema.parse({
     services: {
         foursquare: {
             auth: envToStr(process.env.FSQ_PLACES_API_KEY),
-            client_auth: envToStr(process.env.NEXT_PUBLIC_FSQ_PLACES_API_KEY),
+            // client_auth: envToStr(process.env.NEXT_PUBLIC_FSQ_PLACES_API_KEY),
         },
         unsplash: {
             access_key: envToStr(process.env.UNSPLASH_ACCESS_KEY),
-            client_auth: envToStr(process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY),
+            // client_auth: envToStr(process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY),
         },
     },
 });
