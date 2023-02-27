@@ -24,7 +24,7 @@ export default async function store_by_id(
                 invalid_type_error: "id must be a string",
                 required_error: "id is required",
             })
-            .parse(req.body.id);
+            .parse(req.query.id);
 
         if (req.method !== "GET") {
             throw new Error("Method not allowed");

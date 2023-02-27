@@ -1,4 +1,4 @@
-import { api_stores_schema } from "~/types/cofee_stores";
+import { api_stores_schema, IStore } from "~/types/cofee_stores";
 
 async function fetchStores({ ll, limit = 6 }: { ll: string; limit?: number }) {
     try {

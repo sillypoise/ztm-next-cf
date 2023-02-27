@@ -21,6 +21,7 @@ let store_schema = z
             description: "No description found",
             alt_description: "placeholder coffee shop image",
         },
+        votes: 0,
     }));
 
 let stores_schema = z.array(store_schema);
