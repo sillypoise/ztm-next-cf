@@ -42,6 +42,14 @@ let api_stores_schema = z.array(
     })
 );
 
+let api_request_store_schema = z.object({
+    id: z.string(),
+    name: z.string(),
+    address: z.string().default("No address found"),
+    votes: z.number().optional().default(0),
+    image: z.string().optional(),
+});
+
 let image_schema = z.object({
     id: z.string(),
     width: z.number(),
@@ -61,6 +69,7 @@ let image_schema = z.object({
 let images_schema = z.array(image_schema);
 
 type IStore = z.infer<typeof store_schema>;
+type IStorePG = z.infer<typeof api_request_store_schema>;
 type IStores = z.infer<typeof stores_schema>;
 type IImage = z.infer<typeof image_schema>;
 type IImages = z.infer<typeof images_schema>;
@@ -68,8 +77,9 @@ type IImages = z.infer<typeof images_schema>;
 export {
     stores_schema,
     api_stores_schema,
+    api_request_store_schema,
     store_schema,
     image_schema,
     images_schema,
 };
-export type { IStore, IStores, IImage, IImages };
+export type { IStore, IStores, IStorePG, IImage, IImages };

@@ -1,5 +1,10 @@
 import { config } from "config/config";
-import { images_schema, IStore, stores_schema } from "~/types/cofee_stores";
+import {
+    images_schema,
+    IStore,
+    IStorePG,
+    stores_schema,
+} from "~/types/cofee_stores";
 import { db } from "~/lib/pg";
 
 async function probe_pg() {
@@ -11,16 +16,47 @@ async function probe_pg() {
     }
 }
 
-async function create_store(): Promise<void> {
-    return;
+async function create_new_store(
+    store_data: IStorePG
+): Promise<IStorePG | undefined> {
+    try {
+        let res = await db.one(
+            `INSERT INTO public.store (
+                store_id,
+                name,
+                address,
+                votes,
+                img_url
+            ) VALUES (
+                $1,
+                $2,
+                $3,
+                $4,
+                $5
+            ) RETURNING *`,
+            [
+                store_data.id,
+                store_data.name,
+                store_data.address,
+                store_data.votes,
+                store_data.image,
+            ]
+        );
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 async function get_store_by_id({
     id,
 }: {
     id: string;
-}): Promise<IStore | Error> {
-    return new Error("Not implemented");
+}): Promise<IStore | undefined> {
+    try {
+        let res = await db.one("SELECT * FROM store WHERE store_id = $1", [id]);
+        return res;
+    } catch (error) {}
 }
 
 async function favourite_store_by_id({ id }: { id: string }): Promise<void> {
@@ -106,4 +142,4 @@ async function fetchImages({ limit = 6 }: { limit?: number }) {
     }
 }
 
-export { getStoresByLocation, probe_pg };
+export { getStoresByLocation, probe_pg, get_store_by_id, create_new_store };
