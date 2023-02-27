@@ -1,5 +1,14 @@
 import { config } from "config/config";
 import { images_schema, IStore, stores_schema } from "~/types/cofee_stores";
+import { db } from "~/lib/pg";
+
+async function probe_pg() {
+    try {
+        await db.query("SELECT NOW()");
+    } catch (err) {
+        console.error(err);
+    }
+}
 
 async function create_store(): Promise<void> {
     return;
