@@ -35,20 +35,6 @@ export default function CoffeeStore({
         };
     }, [storeById]);
 
-    async function handleCreateNewStore(store: IStorePG) {
-        try {
-            let res = await fetch("/api/create_store", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({}),
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
     // If the page is not yet generated, this will be displayed
     if (router.isFallback) {
         return (

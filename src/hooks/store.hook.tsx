@@ -39,7 +39,7 @@ async function createStore({
                 name: store.name,
                 address: store.address,
                 votes: 0,
-                img_url: store.image.url,
+                image: store.image.url,
             }),
             signal: signal,
         });
