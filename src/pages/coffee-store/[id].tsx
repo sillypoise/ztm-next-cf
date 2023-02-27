@@ -2,10 +2,12 @@ import { GetStaticPathsContext, GetStaticPropsContext } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { z } from "zod";
+import { createStore } from "~/hooks/store.hook";
 import { useAppStore } from "~/lib/zustand";
 import { getStoresByLocation } from "~/models/stores.model";
-import { IStore } from "~/types/cofee_stores";
+import { IStore, IStorePG } from "~/types/cofee_stores";
 
 export default function CoffeeStore({
     store,
@@ -18,6 +20,34 @@ export default function CoffeeStore({
     let storeId = router.query.id;
     let nearbyStores = useAppStore((state) => state.nearbyStores);
     let storeById = nearbyStores.find((store) => store.id === storeId);
+
+    useEffect(() => {
+        let controller = new AbortController();
+
+        if (storeById) {
+            createStore({ store: storeById, signal: controller.signal })
+                .then((res) => console.log(res))
+                .catch((err) => console.log(err));
+        }
+
+        return () => {
+            controller.abort();
+        };
+    }, [storeById]);
+
+    async function handleCreateNewStore(store: IStorePG) {
+        try {
+            let res = await fetch("/api/create_store", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({}),
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     // If the page is not yet generated, this will be displayed
     if (router.isFallback) {

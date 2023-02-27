@@ -1,7 +1,9 @@
+import { GetStaticPropsContext } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CoffeStoreCard } from "~/components/CoffeeCard";
-import { fetchStores } from "~/hooks/fetchStores";
+import { fetchStores } from "~/hooks/store.hook";
 import { useGeolocation } from "~/hooks/useGeolocation";
 import { useAppStore } from "~/lib/zustand";
 import { getStoresByLocation } from "~/models/stores.model";
@@ -49,6 +51,7 @@ export default function Home({ stores }: IHomeProps) {
             <main>
                 <article className="center stack mlb-l">
                     <h2>Coffee Finder</h2>
+                    <Link href="/test">Test</Link>
                     <p>Discover your new favourite coffee shop</p>
                     <button disabled={loading} onClick={() => handleClick()}>
                         {loading ? "..." : "Find stores near me!"}
@@ -94,7 +97,7 @@ function StoreGrid({ stores }: { stores: IStores }) {
     );
 }
 
-export async function getStaticProps(ctx) {
+export async function getStaticProps(ctx: GetStaticPropsContext) {
     let stores = await getStoresByLocation({
         ll: "4.61616139773357,-74.07026744213343",
         limit: 6,

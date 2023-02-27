@@ -4,7 +4,7 @@ import { getStoresByLocation } from "~/models/stores.model";
 import { IStores } from "~/types/cofee_stores";
 
 interface IResponseData {
-    stores: IStores;
+    name: string;
 }
 
 interface IQueryParmas {
