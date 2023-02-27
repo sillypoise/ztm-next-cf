@@ -1,6 +1,23 @@
 import { config } from "config/config";
-import { images_schema, stores_schema } from "~/types/cofee_stores";
+import { images_schema, IStore, stores_schema } from "~/types/cofee_stores";
 
+async function create_store(): Promise<void> {
+    return;
+}
+
+async function get_store_by_id({
+    id,
+}: {
+    id: string;
+}): Promise<IStore | Error> {
+    return new Error("Not implemented");
+}
+
+async function favourite_store_by_id({ id }: { id: string }): Promise<void> {
+    return;
+}
+
+// FSQ API
 async function getStoresByLocation({
     ll,
     limit = 6,
